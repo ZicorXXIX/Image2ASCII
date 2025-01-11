@@ -3,13 +3,18 @@ package main
 import (
 	"fmt"
 	"os"
+    "flag"
 
 	"github.com/ZicorXXIX/Image2ASCII/pkg/convert"
 )
 
 func main() {
     fmt.Println("Hello World")
-    converter:= convert.NewImageConverter("pikachu.png")
+    var path string
+	flag.StringVar(&path, "path", "pikachu.png", "Path to image")
+    flag.Parse()
+    fmt.Println("path:",path)
+    converter:= convert.NewImageConverter(path)
     matrix := converter.ImageToAsciiString()
     saveToFile("dum.txt", matrix)
     fmt.Println(matrix)

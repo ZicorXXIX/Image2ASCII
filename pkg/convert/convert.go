@@ -7,7 +7,6 @@ import (
 	"image/color"
 
 	"github.com/ZicorXXIX/Image2ASCII/pkg/ascii"
-    "golang.org/x/image/draw"
 )
 
 type ImageConverter struct {
@@ -76,25 +75,3 @@ func (ic *ImageConverter) ImageToAsciiString() string {
     return buffer.String()
 }
 
-func resizeImage(src image.Image, newWidth, newHeight int) image.Image {
-	srcBounds := src.Bounds()
-	srcWidth := srcBounds.Dx()
-	srcHeight := srcBounds.Dy()
-
-	// Calculate the aspect ratio of the source image
-	srcAspectRatio := float64(srcWidth) / float64(srcHeight)
-
-	// Calculate the target width and height while maintaining the aspect ratio
-	var targetWidth, targetHeight int
-	if float64(newWidth)/float64(newHeight) > srcAspectRatio {
-		targetWidth = int(float64(newHeight) * srcAspectRatio)
-		targetHeight = newHeight
-	} else {
-		targetWidth = newWidth
-		targetHeight = int(float64(newWidth) / srcAspectRatio)
-	}
-
-	dst := image.NewRGBA(image.Rect(0, 0, targetWidth, targetHeight))
-    draw.CatmullRom.Scale(dst, dst.Rect, src, srcBounds, draw.Over, nil)
-	return dst
-}

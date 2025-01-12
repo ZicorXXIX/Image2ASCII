@@ -11,7 +11,9 @@ import (
 func main() {
     fmt.Println("Hello World")
     var path string
+    // var width string
 	flag.StringVar(&path, "path", "pikachu.png", "Path to image")
+    // flag.StringVar(&widht, "width", "100", "widht of the image")
     flag.Parse()
     fmt.Println("path:",path)
     converter:= convert.NewImageConverter(path)

@@ -26,7 +26,7 @@ func OpenImageFile(imageFileName string) (image.Image, error) {
 		fmt.Println("Error decoding image:", err)
 		return nil, err
 	}
-	img := resizeImage(d, 80, 80)
+	img := resizeImage(d, 150, 150)
 
     fmt.Println("Image successfully opened and decoded")
 	return img, nil

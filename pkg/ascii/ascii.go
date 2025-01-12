@@ -6,7 +6,6 @@ import (
 	"math"
 	"reflect"
 
-	// "github.com/ZicorXXIX/Image2ASCII/pkg/convert"
 	"github.com/aybabtme/rgbterm"
 )
 
@@ -28,11 +27,11 @@ var DefaultOptions = Options{
 
 func PixelToAsciiPixelString(pixel color.Color) string {
     asciiPixel := PixelToAsciiPixel(pixel)
-    // rawChar, r, g, b := asciiPixel.Char, asciiPixel.R, asciiPixel.G, asciiPixel.B
-    rawChar := asciiPixel.Char
+    rawChar, r, g, b := asciiPixel.Char, asciiPixel.R, asciiPixel.G, asciiPixel.B
+    // rawChar := asciiPixel.Char
     //for gray scale return string([]byte{rawChar})
-    // return colorMyAscii(rawChar, r, g, b)
-    return string([]byte{rawChar})
+    return colorMyAscii(r, g, b, rawChar) 
+    // return string([]byte{rawChar})
 }
 
 func PixelToAsciiPixel(pixel color.Color) Pixel {

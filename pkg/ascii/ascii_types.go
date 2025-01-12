@@ -7,3 +7,7 @@ type Pixel struct {
 	B    uint8
 	A    uint8
 }
+ 
+type PixelConverter struct {
+}
+

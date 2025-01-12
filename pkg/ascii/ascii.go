@@ -9,21 +9,7 @@ import (
 	"github.com/aybabtme/rgbterm"
 )
 
-type PixelConverter struct {
-}
 
-type Options struct {
-	Pixels   []byte
-	Reversed bool
-	Colored  bool
-}
-
-// DefaultOptions that contains the default pixels
-var DefaultOptions = Options{
-	Pixels:   []byte(" .,:;i1tfLCG08@"),
-	Reversed: false,
-	Colored:  true,
-}
 
 func PixelToAsciiPixelString(pixel color.Color) string {
     asciiPixel := PixelToAsciiPixel(pixel)

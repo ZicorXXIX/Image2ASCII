@@ -2,31 +2,22 @@ package convert
 
 import (
 	"bytes"
-	"errors"
+	"fmt"
 	"image"
 	"image/color"
 
 	"github.com/ZicorXXIX/Image2ASCII/pkg/ascii"
 )
 
-type ImageConverter struct {
-    img     image.Image
-}
-
-func NewImageConverter(imageFileName string) *ImageConverter {
-    i, err := OpenImageFile(imageFileName)
-    if err != nil {
-        errors.New("Error Opening file")
-    }
+func NewImageConverter() *ImageConverter {
     return &ImageConverter{
-        img: i,
+        Ascii: ascii.PixelConverter{},
     }
 }
 
-
-
-func (ic *ImageConverter) ImageToAsciiMatrix() [][]ascii.Pixel {
-    sz := ic.img.Bounds()
+//made it for Reverse Option but ditched it
+func (ic *ImageConverter) ImageToAsciiMatrix(img image.Image) [][]ascii.Pixel {
+    sz := img.Bounds()
     width := sz.Max.X
     height := sz.Max.Y
 
@@ -36,7 +27,7 @@ func (ic *ImageConverter) ImageToAsciiMatrix() [][]ascii.Pixel {
     for i:=0; i < int(height); i++ {
         line := make([]ascii.Pixel, 0, width)
         for j:=0; j < int(width); j++ {
-            pixel := color.NRGBAModel.Convert(ic.img.At(j,i))
+            pixel := color.NRGBAModel.Convert(img.At(j,i))
             asciiPixel := ascii.PixelToAsciiPixel(pixel)
             line = append(line, asciiPixel)
         }
@@ -44,18 +35,17 @@ func (ic *ImageConverter) ImageToAsciiMatrix() [][]ascii.Pixel {
     }
 
     return asciiMatrix
-
 }
 
-func (ic *ImageConverter) ImageToAsciiSlice() []string {
+func (ic *ImageConverter) ImageToAsciiSlice(img image.Image) []string {
 	// Resize the convert first
-	sz := ic.img.Bounds()
+	sz := img.Bounds()
 	newWidth := sz.Max.X
 	newHeight := sz.Max.Y
 	rawCharValues := make([]string, 0, int(newWidth*newHeight+newWidth))
 	for i := 0; i < int(newHeight); i++ {
 		for j := 0; j < int(newWidth); j++ {
-			pixel := color.NRGBAModel.Convert(ic.img.At(j, i))
+			pixel := color.NRGBAModel.Convert(img.At(j, i))
 			// Convert the pixel to ascii char
 			rawChar := ascii.PixelToAsciiPixelString(pixel)
 			rawCharValues = append(rawCharValues, rawChar)
@@ -65,8 +55,8 @@ func (ic *ImageConverter) ImageToAsciiSlice() []string {
 	return rawCharValues
 }
 
-func (ic *ImageConverter) ImageToAsciiString() string {
-    buf := ic.ImageToAsciiSlice()
+func (ic *ImageConverter) ImageToAsciiString(img image.Image) string {
+    buf := ic.ImageToAsciiSlice(img)
     var buffer bytes.Buffer
 
     for i := 0; i< len(buf); i++ {
@@ -75,3 +65,11 @@ func (ic *ImageConverter) ImageToAsciiString() string {
     return buffer.String()
 }
 
+func (ic *ImageConverter) ImageFileToAsciiString(imagePath string) string {
+    i, err := OpenImageFile(imagePath)
+    if err != nil {
+        fmt.Println(err)
+    }
+    output := ic.ImageToAsciiString(i)
+    return output    
+}

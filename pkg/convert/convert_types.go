@@ -16,3 +16,20 @@ type Converter interface {
     ImageToAsciiString(image.Image) string 
     ImageFileToAsciiString(string) string 
 }
+
+type Options struct {
+    Width    int
+    Height   int
+	Pixels   []byte
+	Reversed bool
+	Colored  bool
+}
+
+var DefaultOptions = Options{
+    Width:    60,
+    Height:   60,
+    Pixels:   []byte(" .,:;i1tfLCG08@"),
+    Reversed: false,
+    Colored:  true,
+}
+

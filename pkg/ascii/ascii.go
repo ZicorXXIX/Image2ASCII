@@ -11,17 +11,21 @@ import (
 
 
 
-func PixelToAsciiPixelString(pixel color.Color) string {
-    asciiPixel := PixelToAsciiPixel(pixel)
-    rawChar, r, g, b := asciiPixel.Char, asciiPixel.R, asciiPixel.G, asciiPixel.B
-    // rawChar := asciiPixel.Char
+func PixelToAsciiPixelString(pixel color.Color, options Options) string {
+    asciiPixel := PixelToAsciiPixel(pixel, options)
+
+    isColored := options.Colored
+    if isColored {
+        rawChar, r, g, b := asciiPixel.Char, asciiPixel.R, asciiPixel.G, asciiPixel.B
+        return colorMyAscii(r, g, b, rawChar) 
+    }
     //for gray scale return string([]byte{rawChar})
-    return colorMyAscii(r, g, b, rawChar) 
-    // return string([]byte{rawChar})
+    rawChar := asciiPixel.Char
+    return string([]byte{rawChar})
 }
 
-func PixelToAsciiPixel(pixel color.Color) Pixel {
-    convertOptions := DefaultOptions
+func PixelToAsciiPixel(pixel color.Color, options Options) Pixel {
+    convertOptions := options
     // r, g, b, a := pixel.RGBA()
     r := reflect.ValueOf(pixel).FieldByName("R").Uint()
 	g := reflect.ValueOf(pixel).FieldByName("G").Uint()

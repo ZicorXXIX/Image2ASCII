@@ -2,46 +2,41 @@ package main
 
 import (
 	"fmt"
-	"os"
     "flag"
 
 	"github.com/ZicorXXIX/Image2ASCII/pkg/convert"
 )
 
+
+
 func main() {
-    fmt.Println("Hello World")
     var path string
-    // var width string
-	flag.StringVar(&path, "path", "pikachu.png", "Path to image")
-    // flag.StringVar(&widht, "width", "100", "widht of the image")
-    flag.Parse()
-    fmt.Println("path:",path)
-    converter:= convert.NewImageConverter()
-    matrix := converter.ImageFileToAsciiString(path)
-    saveToFile("dum.txt", matrix)
-    fmt.Println(matrix)
-    // f, err := os.Open("test.png")
-    // if err != nil {
-    //     fmt.Println(err)
-    // }
-    // fmt.Println(f)
-    // wd, err := os.Getwd()
-    // if err != nil {
-    //     fmt.Println("Error getting working directory:", err)
-    //     return
-    // }
-    // fmt.Println("Current Working Directory:", wd)
-}
+	var width int
+	var height int
+	var pixels string
+	var reversed bool
+	var colored bool
 
-func saveToFile(filename, content string) error {
-	file, err := os.Create(filename)
-	if err != nil {
-		return err
+    DefaultOptions := convert.DefaultOptions
+
+    flag.StringVar(&path, "path", "pikachu.png", "Path to the image")
+	flag.IntVar(&width, "width", DefaultOptions.Width, "Width of the output ASCII art")
+	flag.IntVar(&height, "height", DefaultOptions.Height, "Height of the output ASCII art")
+	flag.StringVar(&pixels, "pixels", string(DefaultOptions.Pixels),"Characters used for ASCII art")
+	flag.BoolVar(&reversed, "reversed", DefaultOptions.Reversed, "Reverse the brightness levels")
+	flag.BoolVar(&colored, "colored", DefaultOptions.Colored, "Enable colored ASCII art")
+	flag.Parse()
+
+    options := convert.Options{
+		Width:    width,
+		Height:   height,
+		Pixels:   []byte(pixels),
+		Reversed: reversed,
+		Colored:  colored,
 	}
-	defer file.Close() // Ensure the file is closed when we're done
 
-	_, err = file.WriteString(content) // Write the ASCII art to the file
-	return err
+    converter:= convert.NewImageConverter()
+    matrix := converter.ImageFileToAsciiString(path, options)
+    fmt.Println(matrix)
 }
-
 

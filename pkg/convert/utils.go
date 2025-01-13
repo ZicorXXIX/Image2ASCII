@@ -21,12 +21,11 @@ func OpenImageFile(imageFileName string) (image.Image, error) {
 	defer f.Close()
 	
 	// Decode the image
-	d, _, err := image.Decode(f)
+	img, _, err := image.Decode(f)
 	if err != nil {
 		fmt.Println("Error decoding image:", err)
 		return nil, err
 	}
-	img := resizeImage(d, 150, 150)
 
     fmt.Println("Image successfully opened and decoded")
 	return img, nil

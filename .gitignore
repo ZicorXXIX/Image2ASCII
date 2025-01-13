@@ -1,4 +1,4 @@
 ImagetoASCII
-*.png
-*.jpg
-
+# *.png
+# *.jpg
+# *.txt

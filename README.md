@@ -34,3 +34,6 @@ Image2ASCII --path <image-path> [options]
 | `--reversed`     | Reverse the ASCII character set for output.  | `false`                    |
 | `--colored`      | Output ASCII art in color (if terminal supports). | `true`                     |
 | `--pixels`       | Define the set of characters to use for ASCII art. | `[ " .,:;i1tfLCG08@" ]`    |
+
+
+TODOS: Get terminal width and height and adjust the image accordingly wihout using default width and height props

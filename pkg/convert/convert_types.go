@@ -26,8 +26,8 @@ type Options struct {
 }
 
 var DefaultOptions = Options{
-    Width:    60,
-    Height:   60,
+    Width:    80,
+    Height:   80,
     Pixels:   []byte(" .,:;i1tfLCG08@"),
     Reversed: false,
     Colored:  true,

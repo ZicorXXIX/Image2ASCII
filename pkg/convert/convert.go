@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"image"
 	"image/color"
+	"net/http"
 
 	"github.com/ZicorXXIX/Image2ASCII/pkg/ascii"
 )
@@ -76,12 +77,38 @@ func (ic *ImageConverter) ImageToAsciiString(img image.Image, options Options) s
     return buffer.String()
 }
 
+//TODO: Better resizeImage function or aspect ratio fix needed
 func (ic *ImageConverter) ImageFileToAsciiString(imagePath string, options Options) string {
     i, err := OpenImageFile(imagePath)
-	img := resizeImage(i, options.Width, options.Height)
+    img := resizeImage(i, options.Width, options.Height)
+    // var img image.Image
+    // if options.Height != 0  || options.Width != 0 {
+    //     img = resizeImage(i, options.Width, options.Height)
+    // }else {
+    //     img = i
+    // }
     if err != nil {
         fmt.Println(err)
     }
     output := ic.ImageToAsciiString(img, options)
     return output    
+}
+
+func (ic *ImageConverter) ImageUrlToAsciiString(url string, options Options) string {
+    i, err := http.Get(url)
+    if err != nil {
+        fmt.Println("Error fetching image:", err)
+        return ""
+    }
+
+    img, format, err := image.Decode(i.Body)
+    img = resizeImage(img, options.Width, options.Height)
+    if err != nil {
+        fmt.Println("Error Decoding Image:", err)
+        return ""
+    }
+    fmt.Println("Image format:", format)
+
+    output := ic.ImageToAsciiString(img, options)
+    return output
 }

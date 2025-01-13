@@ -19,7 +19,7 @@ func main() {
 
     DefaultOptions := convert.DefaultOptions
 
-    flag.StringVar(&path, "path", "pikachu.png", "Path to the image")
+    flag.StringVar(&path, "path", "images/pikachu.png", "Path to the image")
 	flag.IntVar(&width, "width", DefaultOptions.Width, "Width of the output ASCII art")
 	flag.IntVar(&height, "height", DefaultOptions.Height, "Height of the output ASCII art")
 	flag.StringVar(&pixels, "pixels", string(DefaultOptions.Pixels),"Characters used for ASCII art")
@@ -37,6 +37,7 @@ func main() {
 
     converter:= convert.NewImageConverter()
     matrix := converter.ImageFileToAsciiString(path, options)
-    fmt.Println(matrix)
+    // matrix := converter.ImageUrlToAsciiString("https://static.vecteezy.com/system/resources/previews/048/220/296/non_2x/yoruichi-shihouin-bleach-free-png.png", options)
+    fmt.Print(matrix)
 }
 
